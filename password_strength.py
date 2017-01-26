@@ -18,34 +18,19 @@ def get_password_strength(password):
     )
     password_len = len(password)
     if password_len >= min_len and password.lower() not in blacklist:
-        if password_len == 10:
-            date_re = re.compile("(0[1-9]|[12][0-9]|3[01])[- /.]"
-                                 "(0[1-9]|1[012])[- /.](19|20)\d\d")
-            match = date_re.match(password)
-            if match:
-                return 1
-        digits = letters = 0
-        lower_case = upper_case = 0
-        special_chars = 0
-        for symbol in password:
-            if symbol.isdigit():
-                digits += 1
-            elif symbol.isalpha():
-                letters += 1
-                if symbol.islower():
-                    lower_case += 1
-                else:
-                    upper_case += 1
-            else:
-                special_chars += 1
+        digits = re.search("[0-9]", password)
+        letters = re.search("[A-Za-z]", password)
+        lower_case = re.search("[a-z]", password)
+        upper_case = re.search("[A-Z]", password)
+        special_chars = re.search("[\W_]", password)
         if digits and letters:
             strength += 1
         if upper_case and lower_case:
             strength += 1
         if special_chars:
             strength += 1
-        strength_inc = password_len - min_len
-        strength += strength_inc
+        strength_increase = password_len - min_len
+        strength += strength_increase
     return strength if strength < 10 else 10
 
 if __name__ == '__main__':
