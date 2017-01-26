@@ -15,4 +15,7 @@ Password complexity --- 6/10
 Input the password for estimation --- Password1
 Password complexity --- 1/10
 
+~$ python3 password_strength.py
+Input the password for estimation --- 12/12/1993
+Password complexity --- 1/10
 ```
