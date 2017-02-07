@@ -1,10 +1,9 @@
 import re
+
 from getpass import getpass
 
 
-def get_password_strength(password):
-    strength = 1
-    min_len = 6
+def in_blacklist(password):
     blacklist = (
         'y7u8i9o0', 'warcraft', 'testtest', 'terminal', 'dotadota', 'telegram',
         'sysadmin', 'startrek', 'software', 'security', 'qwertyui', 'qwerasdf',
@@ -16,8 +15,14 @@ def get_password_strength(password):
         'qwerty123', 'abcabcabc', 'qwertyuiop', '1q2w3e4r5t', 'qwerty1234',
         'qwerasdfzxcv', 'q1w2e3r4t5y6', '1q2w3e4r5t6y'
     )
+    return password.lower() in blacklist
+
+
+def get_password_strength(password):
+    strength = 1
+    min_len = 6
     password_len = len(password)
-    if password_len >= min_len and password.lower() not in blacklist:
+    if password_len >= min_len and not in_blacklist(password):
         digits = re.search("[0-9]", password)
         letters = re.search("[A-Za-z]", password)
         lower_case = re.search("[a-z]", password)
@@ -32,6 +37,7 @@ def get_password_strength(password):
         strength_increase = password_len - min_len
         strength += strength_increase
     return strength if strength < 10 else 10
+
 
 if __name__ == '__main__':
     password = getpass("Input the password for estimation --- ")
