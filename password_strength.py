@@ -21,6 +21,7 @@ def in_blacklist(password):
 
 def get_password_strength(password):
     strength = 1
+    max_strength = 10
     min_len = 6
     password_len = len(password)
     if password_len >= min_len and not in_blacklist(password):
@@ -37,7 +38,7 @@ def get_password_strength(password):
             strength += 1
         strength_increase = password_len - min_len
         strength += strength_increase
-    return min(10, strength)
+    return min(max_strength, strength)
 
 
 if __name__ == '__main__':
